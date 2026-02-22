@@ -4,7 +4,6 @@ from django.db.models import F, Count
 from rest_framework import viewsets, mixins
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.permissions import IsAuthenticated
-from django.utils import timezone
 
 from cinema.models import (
     Genre,
@@ -128,9 +127,7 @@ class MovieSessionViewSet(
         queryset = self.queryset
 
         if date:
-            date = timezone.make_aware(
-                datetime.strptime(date, "%Y-%m-%d").date()
-            )
+            date = datetime.strptime(date, "%Y-%m-%d").date()
             queryset = queryset.filter(show_time__date=date)
 
         if movie_id_str:
